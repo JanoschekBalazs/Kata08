@@ -17,15 +17,23 @@ public class Main {
         File input = new File("wordlist.txt");
 
         try {
-            ArrayList<String> words = read(input);
+            ArrayList<String> dictionary = read(input);
 
             elapsedTime = stopwatch.checkTime();
             System.out.println("Reading input took " + elapsedTime + " seconds.");
 
-            ArrayList<String> output = getCompoundWords(words);
+            ArrayList<String> compoundWords = getCompoundWords(dictionary);
 
             elapsedTime = stopwatch.checkTime() - elapsedTime;
             System.out.println("Calculation took " + elapsedTime + " seconds.");
+
+            outputToConsole(compoundWords);
+
+            elapsedTime = stopwatch.checkTime() - elapsedTime;
+            System.out.println("Outputting results took " + elapsedTime + " seconds.");
+
+            elapsedTime = stopwatch.stop();
+            System.out.println("The program took " + elapsedTime + " seconds to run.");
 
         } catch (FileNotFoundException e) {
             System.out.println("Error! Input file not found!");
@@ -74,5 +82,13 @@ public class Main {
             toReturn.add(split(i, s));
         }
         return toReturn;
+    }
+
+    private static void outputToConsole(ArrayList<String> output) {
+        int index = 0;
+        for (String element : output) {
+            System.out.println(index + ". compund word: " + element);
+        }
+        System.out.println("Number of compound words: " + output.size());
     }
 }
