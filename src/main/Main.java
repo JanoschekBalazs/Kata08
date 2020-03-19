@@ -2,6 +2,8 @@ package main;
 
 import profiler.Stopwatch;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,33 +13,48 @@ public class Main {
 
     public static void main(String[] args) {
         Stopwatch stopwatch = new Stopwatch();
-        float elapsedTime;
+        float inputTime, calcTime, outputTime, totalTime;
+
         stopwatch.start();
 
         File input = new File("wordlist.txt");
 
         try {
-            ArrayList<String> dictionary = read(input);
+            StringBuilder statistics = new StringBuilder();
 
-            elapsedTime = stopwatch.checkTime();
-            System.out.println("Reading input took " + elapsedTime + " seconds.");
+            ArrayList<String> dictionary = read(input);
+            inputTime = stopwatch.checkTime();
 
             ArrayList<String> compoundWords = getCompoundWords(dictionary);
+            calcTime = stopwatch.checkTime() - inputTime;
 
-            elapsedTime = stopwatch.checkTime() - elapsedTime;
-            System.out.println("Calculation took " + elapsedTime + " seconds.");
+            new JOptionPaneScrollTextMessage("Compound Words", format(compoundWords));
 
-            outputToConsole(compoundWords);
+            outputTime = stopwatch.checkTime() - inputTime - calcTime;
+            totalTime = stopwatch.stop();
 
-            elapsedTime = stopwatch.checkTime() - elapsedTime;
-            System.out.println("Outputting results took " + elapsedTime + " seconds.");
+            statistics.append("Number of compound words: ").append(compoundWords.size()).append("\n");
+            statistics.append("Reading input took ").append(inputTime).append(" seconds.\n");
+            statistics.append("Calculation took ").append(calcTime).append(" seconds.\n");
+            statistics.append("Outputting results took ").append(outputTime).append(" seconds.\n");
+            statistics.append("The program took ").append(totalTime).append(" seconds to run.\n");
 
-            elapsedTime = stopwatch.stop();
-            System.out.println("The program took " + elapsedTime + " seconds to run.");
+            JOptionPane.showMessageDialog(null, statistics, "Statistics", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (FileNotFoundException e) {
-            System.out.println("Error! Input file not found!");
+            JOptionPane.showMessageDialog(null, "Error! Input file not found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private static String format(ArrayList<String> compoundWords) {
+        StringBuilder toReturn = new StringBuilder();
+        int index = 1;
+        for (String word : compoundWords) {
+            toReturn.append(index).append(". ").append(word).append("\n");
+            index++;
+        }
+
+        return toReturn.toString();
     }
 
     private static ArrayList<String> read(File from) throws FileNotFoundException {
@@ -84,11 +101,20 @@ public class Main {
         return toReturn;
     }
 
-    private static void outputToConsole(ArrayList<String> output) {
-        int index = 0;
-        for (String element : output) {
-            System.out.println(index + ". compund word: " + element);
+    static class JOptionPaneScrollTextMessage extends JFrame {
+        public JOptionPaneScrollTextMessage(String title, String msg) {
+
+            JTextArea jta = new JTextArea(50, 20);
+            jta.setText(msg);
+            jta.setEditable(false);
+            JScrollPane jsp = new JScrollPane(jta);
+            setLayout(new BorderLayout());
+            add(jsp, BorderLayout.CENTER);
+
+            setTitle(title);
+            setSize(1024, 768);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setVisible(true);
         }
-        System.out.println("Number of compound words: " + output.size());
     }
 }
