@@ -35,7 +35,7 @@ public class Main {
 
     private static void showStatistics(Stopwatch timer, Dictionary compoundWords) {
         String statistics = "Number of compound words: " + compoundWords.size() + "\n" +
-                "Reading input took " + timer.loadPoint(10) + " seconds.\n" +
+                "Reading input took " + timer.loadPoint(0) + " seconds.\n" +
                 "Calculation took " + timer.loadPoint(1) + " seconds.\n" +
                 "Outputting results took " + timer.loadPoint(2) + " seconds.\n" +
                 "The program took " + timer.loadPoint(3) + " seconds to run.\n";
