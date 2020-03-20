@@ -7,6 +7,8 @@ public class Word {
     private String word;
 
     public Word(String word) {
+        if (word.contains("\t") || word.contains(" ") || word.equals(""))
+            throw new IllegalArgumentException("Input string isn't a word.");
         this.word = word;
     }
 

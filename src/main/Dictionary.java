@@ -26,6 +26,7 @@ public class Dictionary {
         while (in.hasNextLine())
             toReturn.add(new Word(in.nextLine()));
         in.close();
+        if (toReturn.size() == 0) throw new IllegalArgumentException("Input file is empty.");
         return toReturn;
     }
 

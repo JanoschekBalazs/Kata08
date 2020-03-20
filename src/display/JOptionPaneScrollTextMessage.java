@@ -15,7 +15,7 @@ public class JOptionPaneScrollTextMessage<E> extends JFrame {
         add(jsp, BorderLayout.CENTER);
 
         setTitle(title);
-        setSize(1024, 768);
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

@@ -15,7 +15,7 @@ public class Main {
 
             timer.start();
 
-            Dictionary wordlist = new Dictionary(new File("wordlist.txt"));
+            Dictionary wordlist = new Dictionary(new File("empty.txt"));
             timer.savePoint();
 
             Dictionary compoundWords = wordlist.compoundWords(6);
