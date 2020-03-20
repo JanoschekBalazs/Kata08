@@ -3,7 +3,6 @@ package main;
 import profiler.Stopwatch;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,32 +11,29 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch tempTimer = new Stopwatch();
+        Stopwatch totalTimer = new Stopwatch();
         float inputTime, calcTime, outputTime, totalTime;
 
-        stopwatch.start();
-
-        File input = new File("wordlist.txt");
-
         try {
-            StringBuilder statistics = new StringBuilder();
+            totalTimer.start();
 
+            tempTimer.start();
+            File input = new File("wordlist.txt");
             ArrayList<String> dictionary = read(input);
-            inputTime = stopwatch.checkTime();
+            inputTime = tempTimer.stop();
 
+            tempTimer.start();
             ArrayList<String> compoundWords = getCompoundWords(dictionary);
-            calcTime = stopwatch.checkTime() - inputTime;
+            calcTime = tempTimer.stop();
 
+            tempTimer.start();
             new JOptionPaneScrollTextMessage("Compound Words", format(compoundWords));
+            outputTime = tempTimer.stop();
 
-            outputTime = stopwatch.checkTime() - inputTime - calcTime;
-            totalTime = stopwatch.stop();
+            totalTime = totalTimer.stop();
 
-            statistics.append("Number of compound words: ").append(compoundWords.size()).append("\n");
-            statistics.append("Reading input took ").append(inputTime).append(" seconds.\n");
-            statistics.append("Calculation took ").append(calcTime).append(" seconds.\n");
-            statistics.append("Outputting results took ").append(outputTime).append(" seconds.\n");
-            statistics.append("The program took ").append(totalTime).append(" seconds to run.\n");
+            String statistics = getStatistics(inputTime, calcTime, outputTime, totalTime, compoundWords);
 
             JOptionPane.showMessageDialog(null, statistics, "Statistics", JOptionPane.INFORMATION_MESSAGE);
 
@@ -53,7 +49,6 @@ public class Main {
             toReturn.append(index).append(". ").append(word).append("\n");
             index++;
         }
-
         return toReturn.toString();
     }
 
@@ -101,20 +96,12 @@ public class Main {
         return toReturn;
     }
 
-    static class JOptionPaneScrollTextMessage extends JFrame {
-        public JOptionPaneScrollTextMessage(String title, String msg) {
-
-            JTextArea jta = new JTextArea(50, 20);
-            jta.setText(msg);
-            jta.setEditable(false);
-            JScrollPane jsp = new JScrollPane(jta);
-            setLayout(new BorderLayout());
-            add(jsp, BorderLayout.CENTER);
-
-            setTitle(title);
-            setSize(1024, 768);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setVisible(true);
-        }
+    private static String getStatistics(float inputTime, float calcTime, float outputTime, float totalTime, ArrayList<String> compoundWords) {
+        return "Number of compound words: " + compoundWords.size() + "\n" +
+                "Reading input took " + inputTime + " seconds.\n" +
+                "Calculation took " + calcTime + " seconds.\n" +
+                "Outputting results took " + outputTime + " seconds.\n" +
+                "The program took " + totalTime + " seconds to run.\n";
     }
+
 }

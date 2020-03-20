@@ -293904,9 +293904,9 @@ stopples
 stoppling
 stops
 stopt
-stopwatch
-stopwatch's
-stopwatches
+tempTimer
+tempTimer's
+timeres
 stor
 storable
 storables
@@ -308756,8 +308756,8 @@ timepiece's
 timepieces
 timepleaser
 timepleasers
-timer
-timer's
+tempTimer
+tempTimer's
 timers
 times
 timesaver
