@@ -1,61 +1,49 @@
 package profiler;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Stopwatch {
-    private Long start;
+    private long start;
+    private boolean isStarted;
     private ArrayList<Long> breakpoints;
 
     public Stopwatch() {
-        start = null;
         breakpoints = new ArrayList<>();
     }
 
     public void start() {
-        if (start == null)
+        if (!isStarted) {
             start = System.currentTimeMillis();
-        else
-            JOptionPane.showMessageDialog(null, "Error", "Timer can't be started becouse it hasn't stopped yet!", JOptionPane.ERROR_MESSAGE);
+            isStarted = true;
+        } else throw new IllegalStateException("Can't start the timer if it's already started.");
     }
 
-    public Float restart() {
-        Float stop = stop();
+    public float restart() {
+        float stop = stop();
         start();
         return stop;
     }
 
-    public Float savePoint() {
-        if (start != null) {
+    public float savePoint() {
+        if (isStarted) {
             long elapsedTimeMillis = System.currentTimeMillis() - start;
             breakpoints.add(elapsedTimeMillis);
             return elapsedTimeMillis / 1000F;
-        }
-        JOptionPane.showMessageDialog(null, "Error", "Can't save timepoint becouse the timer hasn't started yet!", JOptionPane.ERROR_MESSAGE);
-        return null;
+        } else throw new IllegalStateException("Can't save the time if the timer hasn't started yet.");
     }
 
-    public Float stop() {
-        if (start != null) {
+    public float stop() {
+        if (isStarted) {
             long elapsedTimeMillis = System.currentTimeMillis() - start;
             breakpoints.add(elapsedTimeMillis);
-            start = null;
+            isStarted = false;
             return elapsedTimeMillis / 1000F;
-        } else {
-            JOptionPane.showMessageDialog(null, "Error", "Timer can't be stopped becouse it hasn't started yet!", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
+        } else throw new IllegalStateException("Can't stop timer if it hasn't started yet.");
     }
 
-    public Float loadPoint(int index) {
-        if (start == null)
+    public float loadPoint(int index) {
+        if (!isStarted)
             return breakpoints.get(index) / 1000F;
-        else if (breakpoints.size() == 0) {
-            JOptionPane.showMessageDialog(null, "Warning", "There were no breakpoints!", JOptionPane.WARNING_MESSAGE);
-            return null;
-        } else {
-            JOptionPane.showMessageDialog(null, "Error", "Can't get breakpoints becouse the timer hasn't stopped yet!", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
+        else throw new IllegalStateException("Can't load the breakpoint becouse the timer hasn't stopped yet.");
     }
 }

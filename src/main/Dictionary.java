@@ -1,6 +1,5 @@
 package main;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,12 +11,8 @@ public class Dictionary {
 
     ArrayList<Word> dictionary;
 
-    public Dictionary(File input) {
-        try {
-            dictionary = read(input);
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error! Input file not found!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    public Dictionary(File input) throws FileNotFoundException {
+        dictionary = read(input);
     }
 
     public <E extends Word> Dictionary(List<E> wordlist) {
