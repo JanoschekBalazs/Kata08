@@ -1,12 +1,12 @@
 package main;
 
-import display.JOptionPaneScrollTextMessage;
+import display.OutputWindow;
 import profiler.Stopwatch;
 import words.Dictionary;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CompoundWords {
 
@@ -31,7 +31,7 @@ public class CompoundWords {
 
             displayStatistics(timer);
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Input file not found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -39,14 +39,14 @@ public class CompoundWords {
     private void displayStatistics(Stopwatch timer) {
         String statistics = "Number of compound words: " + compoundWords.size() + "\n" +
                 "Reading input took " + timer.loadPoint(0) + " seconds.\n" +
-                "Calculation took " + timer.loadPoint(1) + " seconds.\n" +
-                "Outputting results took " + timer.loadPoint(2) + " seconds.\n" +
+                "Calculation took " + (timer.loadPoint(1) - timer.loadPoint(0)) + " seconds.\n" +
+                "Outputting results took " + (timer.loadPoint(2) - timer.loadPoint(1)) + " seconds.\n" +
                 "The program took " + timer.loadPoint(3) + " seconds to run.\n";
 
         JOptionPane.showMessageDialog(null, statistics, "Statistics", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void displayCompoundWords() {
-        new JOptionPaneScrollTextMessage<>("List of compound words", compoundWords);
+        new OutputWindow<>("List of compound words", compoundWords);
     }
 }

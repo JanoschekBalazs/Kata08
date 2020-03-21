@@ -1,11 +1,12 @@
 package words;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 
 public class Dictionary {
 
@@ -15,7 +16,7 @@ public class Dictionary {
         wordlist = new ArrayList<>();
     }
 
-    public Dictionary(File input) throws FileNotFoundException {
+    public Dictionary(File input) throws IOException {
         wordlist = read(input);
     }
 
@@ -23,12 +24,13 @@ public class Dictionary {
         this.wordlist = new ArrayList<>(wordlist);
     }
 
-    private ArrayList<Word> read(File from) throws FileNotFoundException {
-        Scanner in = new Scanner(from);
+    private ArrayList<Word> read(File from) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(from));
         ArrayList<Word> toReturn = new ArrayList<>();
 
-        while (in.hasNextLine())
-            toReturn.add(new Word(in.nextLine()));
+        String line;
+        while ((line = in.readLine()) != null)
+            toReturn.add(new Word(line));
         in.close();
 
         if (toReturn.size() == 0) throw new IllegalArgumentException("Input file is empty.");
