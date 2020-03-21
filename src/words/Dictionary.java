@@ -1,4 +1,4 @@
-package main;
+package words;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +35,14 @@ public class Dictionary {
         else return toReturn;
     }
 
+    public void add(Word word) {
+        wordlist.add(word);
+    }
+
+    public ArrayList<Word> getWordlist() {
+        return wordlist;
+    }
+
     public Dictionary compoundWords(int wordLength) {
 
         HashSet<Word> suitableWords = new HashSet<>();
@@ -46,18 +54,6 @@ public class Dictionary {
         }
 
         return findCompoundWords(suitableWords, possibleComponents);
-    }
-
-    public int size() {
-        return wordlist.size();
-    }
-
-    public void add(Word word) {
-        wordlist.add(word);
-    }
-
-    public ArrayList<Word> getWordlist() {
-        return wordlist;
     }
 
     private Dictionary findCompoundWords(HashSet<Word> suitableWords, HashSet<Word> possibleComponents) {
@@ -75,6 +71,10 @@ public class Dictionary {
         return toReturn;
     }
 
+    public int size() {
+        return wordlist.size();
+    }
+
     public String toString() {
         StringBuilder toReturn = new StringBuilder();
         for (Word word : wordlist) {
@@ -82,5 +82,4 @@ public class Dictionary {
         }
         return toReturn.toString();
     }
-
 }

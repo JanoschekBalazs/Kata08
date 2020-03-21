@@ -1,4 +1,4 @@
-package main;
+package words;
 
 import java.util.ArrayList;
 import java.util.Objects;

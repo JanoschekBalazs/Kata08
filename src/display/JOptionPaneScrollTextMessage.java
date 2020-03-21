@@ -1,13 +1,11 @@
 package display;
 
-import main.Dictionary;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class JOptionPaneScrollTextMessage extends JFrame {
+public class JOptionPaneScrollTextMessage<E> extends JFrame {
 
-    public JOptionPaneScrollTextMessage(String title, Dictionary msg) {
+    public JOptionPaneScrollTextMessage(String title, E msg) {
 
         JTextArea jta = new JTextArea(50, 20);
         jta.setText(msg.toString());
