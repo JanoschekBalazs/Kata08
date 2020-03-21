@@ -32,7 +32,7 @@ public class CompoundWords {
             displayStatistics(timer);
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Input file not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Input reading unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -47,6 +47,7 @@ public class CompoundWords {
     }
 
     private void displayCompoundWords() {
+
         new OutputWindow<>("List of compound words", compoundWords);
     }
 }

@@ -12,7 +12,7 @@ public class OutputWindow<E> extends JFrame {
         jta.setEditable(false);
         JScrollPane jsp = new JScrollPane(jta);
         setLayout(new BorderLayout());
-        add(jsp, BorderLayout.SOUTH);
+        add(jsp, BorderLayout.CENTER);
 
         setTitle(title);
         setSize(800, 600);

@@ -20,7 +20,7 @@ public class Dictionary {
         wordlist = read(input);
     }
 
-    public Dictionary(List<Word> wordlist) {
+    public Dictionary(List<CompoundWord> wordlist) {
         this.wordlist = new ArrayList<>(wordlist);
     }
 
@@ -55,13 +55,13 @@ public class Dictionary {
             else if (word.length() < wordLength) possibleComponents.add(word);
         }
 
-        return findCompoundWords(suitableWords, possibleComponents);
+        return new Dictionary(findCompoundWords(suitableWords, possibleComponents));
     }
 
-    private Dictionary findCompoundWords(HashSet<Word> suitableWords, HashSet<Word> possibleComponents) {
+    private ArrayList<CompoundWord> findCompoundWords(HashSet<Word> suitableWords, HashSet<Word> possibleComponents) {
 
-        Dictionary toReturn = new Dictionary();
-        ArrayList<CompoundWord> temp;
+        ArrayList<CompoundWord> toReturn = new ArrayList<>();
+        CompoundWord[] temp;
 
         for (Word word : suitableWords) {
             temp = word.possibleCompounds();
