@@ -9,56 +9,75 @@ import java.util.Scanner;
 
 public class Dictionary {
 
-    ArrayList<Word> dictionary;
+    private ArrayList<Word> wordlist;
 
-    public Dictionary(File input) throws FileNotFoundException {
-        dictionary = read(input);
+    public Dictionary() {
+        wordlist = new ArrayList<>();
     }
 
-    public <E extends Word> Dictionary(List<E> wordlist) {
-        dictionary = new ArrayList<>(wordlist);
+    public Dictionary(File input) throws FileNotFoundException {
+        wordlist = read(input);
+    }
+
+    public Dictionary(List<Word> wordlist) {
+        this.wordlist = new ArrayList<>(wordlist);
     }
 
     private ArrayList<Word> read(File from) throws FileNotFoundException {
-        Scanner in;
-        in = new Scanner(from);
+        Scanner in = new Scanner(from);
         ArrayList<Word> toReturn = new ArrayList<>();
+
         while (in.hasNextLine())
             toReturn.add(new Word(in.nextLine()));
         in.close();
+
         if (toReturn.size() == 0) throw new IllegalArgumentException("Input file is empty.");
-        return toReturn;
+        else return toReturn;
     }
 
-    public Dictionary compoundWords(int lengthNeeded) {
+    public Dictionary compoundWords(int wordLength) {
 
-        HashSet<Word> wordsNeeded = new HashSet<>();
+        HashSet<Word> suitableWords = new HashSet<>();
         HashSet<Word> possibleComponents = new HashSet<>();
-        HashSet<CompoundWord> compoundWords = new HashSet<>();
 
-        for (Word word : dictionary) {
-            if (word.length() == lengthNeeded) wordsNeeded.add(word);
-            else if (word.length() < lengthNeeded) possibleComponents.add(word);
+        for (Word word : wordlist) {
+            if (word.length() == wordLength) suitableWords.add(word);
+            else if (word.length() < wordLength) possibleComponents.add(word);
         }
 
-        CompoundWord[] temp;
-        for (Word word : wordsNeeded) {
-            temp = word.possibleCompounds();
-            for (CompoundWord compound : temp) {
-                if (possibleComponents.contains(compound.getPrefix()) && possibleComponents.contains(compound.getSuffix()))
-                    compoundWords.add(compound);
-            }
-        }
-        return new Dictionary(new ArrayList<>(compoundWords));
+        return findCompoundWords(suitableWords, possibleComponents);
     }
 
     public int size() {
-        return dictionary.size();
+        return wordlist.size();
+    }
+
+    public void add(Word word) {
+        wordlist.add(word);
+    }
+
+    public ArrayList<Word> getWordlist() {
+        return wordlist;
+    }
+
+    private Dictionary findCompoundWords(HashSet<Word> suitableWords, HashSet<Word> possibleComponents) {
+
+        Dictionary toReturn = new Dictionary();
+        ArrayList<CompoundWord> temp;
+
+        for (Word word : suitableWords) {
+            temp = word.possibleCompounds();
+            for (CompoundWord compound : temp) {
+                if (possibleComponents.contains(compound.getPrefix()) && possibleComponents.contains(compound.getSuffix()))
+                    toReturn.add(compound);
+            }
+        }
+        return toReturn;
     }
 
     public String toString() {
         StringBuilder toReturn = new StringBuilder();
-        for (Word word : dictionary) {
+        for (Word word : wordlist) {
             toReturn.append(word).append("\n");
         }
         return toReturn.toString();

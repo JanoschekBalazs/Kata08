@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Word {
@@ -20,11 +21,11 @@ public class Word {
         return word;
     }
 
-    public CompoundWord[] possibleCompounds() {
-        int compoundCount = word.length() - 1;
-        CompoundWord[] toReturn = new CompoundWord[compoundCount];
-        for (int i = 0; i < compoundCount; i++) {
-            toReturn[i] = new CompoundWord(word, i + 1);
+    public ArrayList<CompoundWord> possibleCompounds() {
+        int count = word.length() - 1;
+        ArrayList<CompoundWord> toReturn = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            toReturn.add(new CompoundWord(word, i + 1));
         }
         return toReturn;
     }

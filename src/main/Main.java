@@ -15,13 +15,13 @@ public class Main {
 
             timer.start();
 
-            Dictionary wordlist = new Dictionary(new File("empty.txt"));
+            Dictionary wordlist = new Dictionary(new File("wordlist.txt"));
             timer.savePoint();
 
             Dictionary compoundWords = wordlist.compoundWords(6);
             timer.savePoint();
 
-            new JOptionPaneScrollTextMessage<>("List of compound words", compoundWords);
+            new JOptionPaneScrollTextMessage("List of compound words", compoundWords);
             timer.savePoint();
 
             timer.stop();
